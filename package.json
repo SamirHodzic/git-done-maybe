@@ -1,0 +1,23 @@
+{
+  "name": "git-done-maybe",
+  "version": "1.0.0",
+  "description": "What you did on the last working day ..or what someone else did.",
+  "main": "git-done-maybe.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "SamirH",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SamirHodzic/git-done-maybe"
+  },
+  "keywords": [
+    "javascript",
+    "js",
+    "done-maybe",
+    "standup",
+    "git",
+    "git-log"
+  ]
+}
