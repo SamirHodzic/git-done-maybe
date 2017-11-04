@@ -1,8 +1,11 @@
 {
   "name": "git-done-maybe",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "What you did on the last working day ..or what someone else did.",
   "main": "git-done-maybe.js",
+  "bin": {
+    "git-done-maybe": "git-done-maybe.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
