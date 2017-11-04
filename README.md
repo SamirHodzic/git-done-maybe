@@ -3,6 +3,10 @@
 > What you did on the last working day ..or what someone else did.
 > Inspired by [git-standup](https://github.com/kamranahmedse/git-standup) and need to have compact multiple repo access.
 
+[![npm-url][npm-url-svg]][npm-url]
+
+![git done-maybe](http://i.imgur.com/6ZQkZLQ.gif)
+
 ## Install
 
 To install git-done-maybe library via npm
@@ -104,3 +108,6 @@ $ git done-maybe --s
 ## License
 
 MIT
+
+[npm-url-svg]: https://img.shields.io/npm/v/git-done-maybe.svg
+[npm-url]: https://www.npmjs.com/package/git-done-maybe

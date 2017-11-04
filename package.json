@@ -1,6 +1,6 @@
 {
   "name": "git-done-maybe",
-  "version": "1.0.2",
+  "version": "1.0.7",
   "description": "What you did on the last working day ..or what someone else did.",
   "main": "git-done-maybe.js",
   "bin": {
