@@ -61,7 +61,7 @@ This will show you all commits since the last working day in all the repositorie
 If you want to find out someone else's commits
 
 ```bash
-# If heir name on git is "Charles Lee"
+# If their name on git is "Charles Lee"
 $ git done-maybe --a="Charles Lee"
 
 # Or if their email on git is "charles@something.com"
