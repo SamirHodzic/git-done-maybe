@@ -23,19 +23,21 @@ $ git done-maybe [--a=<author name>]
                  [--df=<date-format>] 
                  [--m] 
                  [--f] 
-                 [--s] 
+                 [--s]
+                 [--r]
                  [--h]
 ```
 
 Below is the description for each of the flags
 
-- `--a`      	- Specify author to restrict search to (if not specified, will return all contributors)
-- `--d`      	- Specify the number of days back to include (default: 1)
-- `--df`			- Specify the date format for "git log" (default: relative, options: local|default|iso|iso-strict|rfc|short|raw)
-- `--m`	  	 	- Specify the multiple git projects search in target directory
-- `--f`      	- Fetch the latest commits beforehand
-- `--s`      	- Display stats for the commits (files changed, insertions, deletions)
-- `--h`      	- Display the help screen
+- `--a`        - Specify author to restrict search to (if not specified, will return all contributors)
+- `--d`        - Specify the number of days back to include (default: 1)
+- `--df`       - Specify the date format for "git log" (default: relative, options: local|default|iso|iso-strict|rfc|short|raw)
+- `--m`        - Specify the multiple git projects search in target directory
+- `--f`        - Fetch the latest commits beforehand
+- `--s`        - Display stats for the commits (files changed, insertions, deletions)
+- `--r`        - Export report for current logs to file
+- `--h`        - Display the help screen
 
 For the basic usage, all you have to do is run `git done-maybe` in a repository.
 
@@ -99,10 +101,19 @@ $ git done-maybe --f
 
 ### Show statistics for all commits
 
-If you would like to show how many files are changed (with insertions/deletions) per commit , you can add the `--s` flag
+If you would like to show how many files are changed (with insertions/deletions) per commit, you can add the `--s` flag
 
 ```bash
 $ git done-maybe --s
+```
+
+### Export report for all commits
+
+If you would like to export report to specific file after printing the results, you can add the `--r` flag
+
+```bash
+$ git done-maybe --r
+# You will be prompted to enter name for report file
 ```
 
 ## License
