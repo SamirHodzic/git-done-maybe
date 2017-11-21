@@ -82,6 +82,7 @@ process.argv.forEach(function (arg) {
 });
 
 if (help) { showHelp(); return; }
+
 var pretty_format = `--pretty=format:'%Cred%h%Creset ### %s%Creset ### %Cgreen(%ad)%Creset ### %C(yellow)<%an>%Creset' ${stats || ''}`;
 var gitLog = `git log --since=${days || '1.days'} ${pretty_format} --abbrev-commit --date=${date_format || 'relative'} ${author || ''} --no-merges`;
 var gitFetch = 'git fetch --all';
@@ -100,22 +101,25 @@ function getWork(gitPath, callback) {
 }
 
 function executeGitFetch(gitPath, callback) {
-  exec(gitFetch, { cwd: gitPath }, function (err, stdout, stderr) {
+  exec(gitFetch, { cwd: gitPath }, function (err, stdout) {
     callback();
   });
 }
 
 function executeGitLogWork(gitPath, callback) {
-  exec(gitLog, { cwd: gitPath }, function (err, stdout, stderr) {
+  exec(gitLog, { cwd: gitPath }, function (err, stdout) {
     var repo = repoName(gitPath);
     console.log('\n\x1b[4m\x1b[36m/' + repo + '\x1b[0m\n');
     reportData.push(`\n/${repo}`);
+
     if (!checkGitDir(gitPath)) {
       reportData.push(`\n${msgs.not_found}`);
       callback();
       return;
     }
-    if (err) return console.log(`\x1b[31m${msgs.something_wrong}\x1b[0m`);
+    if (err) {
+      return console.log(`\x1b[31m${msgs.something_wrong}\x1b[0m`);
+    }
 
     stdout.length === 0 ? (
       console.log(`\x1b[31m${msgs.empty}\x1b[0m`),
@@ -125,8 +129,7 @@ function executeGitLogWork(gitPath, callback) {
         reportData.push(`\n${stdout}`),
         stdout = stdout.split('\n'),
         stdout.forEach(function (el) {
-          var a = el.split(' ### ');
-          console.log(a.join(' '));
+          console.log(el.split(' ### ').join(' '));
         }, this),
         callback()
       )
@@ -140,6 +143,7 @@ function repoName(repo) {
 
 function checkGitDir(pathDir) {
   var gitPath = path.join(pathDir, '.git/HEAD');
+
   return !fs.existsSync(gitPath) ? (
     console.log(`\x1b[31m${msgs.not_found}\x1b[0m`),
     false
@@ -148,6 +152,7 @@ function checkGitDir(pathDir) {
 
 function getSubDirectories() {
   var path = process.cwd();
+
   return fs.readdirSync(path).filter(function (file) {
     return fs.statSync(path + '/' + file).isDirectory();
   });
@@ -167,9 +172,10 @@ function exportReport(data, filename) {
 
 function prepareForExport(data) {
   data = data.map(function (el) {
-    var a = el.split(' ### ');
-    return a.join(' ').replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
-  }, this)
+    return el.split(' ### ')
+      .join(' ')
+      .replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
+  }, this);
 
   return data.join('\n');
 }
@@ -184,13 +190,12 @@ function askForFilename(question, callback) {
 
   stdin.once('data', function (data) {
     data = data.toString().trim();
-
-    if (format.test(data)) {
-      callback(data);
-    } else {
-      console.log(msgs.filename + format);
-      askForFilename(question, callback);
-    }
+    format.test(data) ?
+      callback(data)
+      : (
+        console.log(msgs.filename + format),
+        askForFilename(question, callback)
+      )
   });
 }
 
@@ -205,16 +210,15 @@ function checkReport() {
 
 function getMultiple(callback) {
   var directories = getSubDirectories();
+
   directories.forEach(function (dir) {
-    if (dir !== '.git') {
-      var gitPath = path.join(process.cwd(), dir);
-      if (fs.existsSync(gitPath)) {
-        getWork(gitPath, function () {
-          if (reportData.length === directories.length * 2) {
-            callback();
-          }
-        });
-      }
+    var gitPath = path.join(process.cwd(), dir);
+    if (dir !== '.git' && fs.existsSync(gitPath)) {
+      getWork(gitPath, function () {
+        if (reportData.length === directories.length * 2) {
+          callback();
+        }
+      });
     }
   })
 }
